@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import {JokesService} from "./services/jokes.service";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('AppComponent', () => {
@@ -8,7 +7,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [HttpClientTestingModule],
-      providers: [JokesService]
+      providers: []
     }).compileComponents();
   });
 
