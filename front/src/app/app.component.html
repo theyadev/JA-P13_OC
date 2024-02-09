@@ -8,23 +8,29 @@
       class="flex flex-col"
     >
       <p class="text-center text-lg font-semibold">{{ destinationUsername }}</p>
+      <button *ngIf="username == 'support'" (click)="reset()" class="px-8 mb-4 py-1 border mx-auto border-gray-200 rounded">
+        Retour
+      </button>
       <div
         class="flex flex-col px-4 py-2 gap-y-2 rounded border border-gray-200 max-w-2xl mx-auto h-96 overflow-auto"
       >
-        <div class="bg-red-300 px-4 py-1 rounded w-3/4">
+        <div class="bg-red-300 px-4 py-1 rounded w-3/4" [ngClass]="{'ml-auto': username === 'support'}">
           Bonjour! Comment puis-je vous aider aujourd'hui ?
         </div>
         <div
           class="flex flex-col gap-y-2"
           *ngFor="let message of userMessages[currentChat]; let i = index"
-          [ngClass]="{ hidden: i > currentMessage }"
+          [ngClass]="{ hidden: i > currentMessage, 'flex-col-reverse': username == 'support' }"
         >
-          <div class="bg-gray-100 px-4 py-1 rounded w-3/4 ml-auto">
+          <div class="bg-gray-100 px-4 py-1 rounded w-3/4" [ngClass]="{'ml-auto': username != 'support'}">
             {{ message }}
           </div>
-          <div class="bg-red-300 px-4 py-1 rounded w-3/4">
-            {{ supportMessages[currentChat][i] }}
+          <div *ngIf="supportMessages[currentChat][getCorrectIndex(i)]" class="bg-red-300 px-4 py-1 rounded w-3/4" [ngClass]="{'ml-auto': username === 'support'}">
+            {{ supportMessages[currentChat][getCorrectIndex(i)] }}
           </div>
+        </div>
+        <div *ngIf="username == 'support' && currentMessage > supportMessages.length" class="bg-red-300 px-4 py-1 rounded w-3/4" [ngClass]="{'ml-auto': username === 'support'}">
+          {{ supportMessages[currentChat][supportMessages[currentChat].length - 1] }}
         </div>
       </div>
       <form
@@ -41,6 +47,19 @@
           Envoyer
         </button>
       </form>
+    </div>
+
+    <div class="flex flex-col gap-y-2" *ngIf="currentChat == undefined && currentMessage == undefined">
+      <p>Nouveau Chats:</p>
+      <div class="flex">
+        <div class="cursor-pointer px-4 border-gray-200 border hover:bg-gray-200 rounded py-1" (click)="setChat(0, 0)">{{ usernames[0] }}</div>
+      </div>
+      <p>Chats en cours:</p>
+      <div class="flex gap-x-4">
+        <div class="" *ngFor="let chat of supportMessages; let i = index">
+          <div *ngIf="supportMessages[i+1]" class="py-1 px-4 cursor-pointer border-gray-200 border hover:bg-gray-200 rounded " (click)="setChat(i+1)">{{ usernames[i+1] }}</div>
+        </div>
+      </div>
     </div>
   </div>
   <form

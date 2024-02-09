@@ -10,29 +10,12 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class AppComponent implements OnInit {
   public supportMessages = [
     [
-      "Bonjour! Bien sûr, je serais ravi de vous aider. Pour commencer, pourriez-vous me donner quelques détails tels que la ville de départ, la date et l'heure souhaitées ?",
-      'Parfait! Pourriez-vous également me donner la ville de retour ?',
-      "Merci pour ces informations. Permettez-moi de rechercher les offres disponibles pour vous. Un instant, s'il vous plaît.",
-      "J'ai trouvé plusieurs options pour vous. Nous avons des voitures de différentes catégories, de la citadine à la compacte. Avez-vous une préférence particulière ?",
-      'Super, je pense que la Renault Clio pourrait me convenir. Comment puis-je procéder pour réserver ?',
-      'Pour réserver, nous aurons besoin de quelques détails supplémentaires, tels que vos informations personnelles et de paiement. Vous préférez finaliser cela par chat ou souhaitez-vous que je vous guide à travers le processus de réservation en visioconférence ?',
-      'Je pense que le chat serait plus pratique pour moi.',
-      "Parfait, je vais vous guider à travers les étapes. Puis-je avoir votre nom, prénom et adresse s'il vous plaît ?",
-      "Certainement, c'est Jean Dupont, 123 Rue de la République, Paris.",
-      'Merci, Jean. Puis-je également obtenir votre date de naissance ?',
-      "Oui, c'est le 15 mars 1985.",
-      'Merci. Nous allons maintenant procéder au paiement. Veuillez fournir les détails de votre carte de crédit lorsque vous serez prêt. Nous assurons une sécurisation totale de ces informations.',
-      "D'accord, je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      "Pas de problème, Jean. Prenez votre temps. Si vous avez des questions supplémentaires, n'hésitez pas à me le faire savoir.",
-      'Entendu, merci.',
-    ],
-    [
       'Bonjour! Bien sûr, je serais heureux de vous aider à modifier votre réservation. Pouvez-vous me donner plus de détails sur la modification que vous souhaitez apporter ?',
       "Merci pour ces informations. Permettez-moi de vérifier cela pour vous. Un instant, s'il vous plaît.",
       "J'ai trouvé des options disponibles pour les dates que vous avez mentionnées. Cependant, veuillez noter que cela pourrait affecter le tarif total de la location. Êtes-vous d'accord avec cela ?",
       'Certainement. Le tarif total pour la prolongation de votre réservation serait de X euros. Cela inclut les frais supplémentaires pour les jours supplémentaires.',
       "Pour finaliser la modification, j'aurai besoin de votre accord verbal, et nous procéderons ensuite à la mise à jour de votre réservation. Êtes-vous d'accord pour prolonger la location aux nouvelles dates mentionnées ?",
-      "C'est un plaisir, [Nom de l'Utilisateur]. Si vous avez d'autres besoins ou des préoccupations, n'hésitez pas à nous contacter à nouveau. Bonne journée !",
+      "C'est un plaisir ! Si vous avez d'autres besoins ou des préoccupations, n'hésitez pas à nous contacter à nouveau. Bonne journée !",
     ],
     [
       "Bien sûr, je serais ravi de vous aider avec toute question que vous pourriez avoir. N'hésitez pas à demander.",
@@ -63,24 +46,6 @@ export class AppComponent implements OnInit {
   ];
   
   public userMessages =  [
-    [
-      "Bonjour, je suis intéressé par la location d'une voiture. Pouvez-vous m'aider ?",
-      'Je prévois de partir de Paris le week-end prochain, vendredi matin, et je dois retourner le véhicule le lundi soir. Une petite voiture serait parfaite.',
-      'Bien sûr, je retournerai la voiture à Paris également.',
-      "D'accord, merci beaucoup.",
-      'Une citadine serait idéale. Quelles sont les options disponibles dans cette catégorie ?',
-      "Je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      "D'accord, je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      'Je pense que la Renault Clio pourrait me convenir. Comment puis-je procéder pour réserver ?',
-      'Une citadine serait idéale. Quelles sont les options disponibles dans cette catégorie ?',
-      "Je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      "D'accord, je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      "Je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      "D'accord, je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      "Je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      "Je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-      "D'accord, je vais préparer ma carte. Merci pour votre aide jusqu'à présent.",
-    ],
     [
       "Bonjour, j'ai réservé une voiture pour le week-end prochain, mais j'aurais besoin de la modifier. Est-ce possible ?",
       "J'avais initialement réservé une voiture pour trois jours, mais j'aimerais maintenant l'étendre à cinq jours. Est-ce réalisable ?",
@@ -118,6 +83,16 @@ export class AppComponent implements OnInit {
       "Toutes les informations sont correctes. Merci beaucoup pour votre assistance. J'apprécie votre aide pour rendre mon voyage plus facile.",
     ],
   ];
+  public usernames: string[] = [
+    'Alexandre F.',
+    'Jeremy P.',
+    'Aurélien M.',
+    'Franck M.',
+    'Johan V.',
+    'David L.',
+    'Marcel S.',
+    'Elyse S.'
+  ]
 
   public username: string = '';
   public destinationUsername: string = '';
@@ -131,7 +106,9 @@ export class AppComponent implements OnInit {
   });
   constructor(private fb: FormBuilder) {}
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.usernames = this.usernames.sort(() => 0.5 - Math.random())
+  }
 
   public submit(): void {
     const { username } = this.form.value;
@@ -141,9 +118,7 @@ export class AppComponent implements OnInit {
     if (username.toLowerCase() != 'support') {
       this.destinationUsername = 'Service Client';
       this.currentChat = Math.floor(Math.random() * this.supportMessages.length)
-      console.log(this.currentChat)
-      this.currentMessage = Math.floor(Math.random() * this.supportMessages.length/1.5)
-      console.log(this.currentMessage)
+      this.currentMessage = Math.floor(Math.random() * this.supportMessages.length / 1.5)
     }
       
 
@@ -154,5 +129,25 @@ export class AppComponent implements OnInit {
     (this.currentMessage as number) += 1
 
     this.chatForm.reset()
+  }
+
+  public setChat(chatIndex: number, messageIndex?: number) {
+    this.currentChat = chatIndex
+    this.destinationUsername = this.usernames[chatIndex]
+
+    if (messageIndex === undefined)
+      this.currentMessage = Math.floor(Math.random() * this.supportMessages.length / 1.5)
+    else
+      this.currentMessage = messageIndex
+  }
+
+  public getCorrectIndex(i: number) {
+    if (this.username == 'support') return i - 1
+    return i
+  }
+
+  public reset() {
+      this.currentMessage = undefined
+      this.currentChat = undefined
   }
 }
